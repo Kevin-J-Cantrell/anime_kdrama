@@ -1,0 +1,16 @@
+* {
+margin: 0;
+padding: 0;
+list-style: none;
+}
+body{
+    background-color: black;
+    color: aliceblue;
+}
+.nav{
+    border: solid 1px coral;
+    
+}
+.box{
+    border: solid 2px black;
+}
