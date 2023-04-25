@@ -100,10 +100,10 @@ class Recipe:
         if len(recipe['name']) < 5:
             flash("First name must be at least 5 characters")
             is_valid= False
-        if len(recipe['description']) < 5:
+        if len(recipe['description']) < 2:
             flash("Description field can not be empty")
             is_valid= False
-        if len(recipe['instruction']) < 5:
+        if len(recipe['instruction']) < 2:
             flash("instruction field can not be empty")
             is_valid= False
         if len(recipe['date_posted']) < 2:
