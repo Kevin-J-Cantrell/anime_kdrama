@@ -10,10 +10,7 @@
 </head>
 
 <body>
-  <div>
-    <h1 class="text-center">Welcome to DaList</h1>
-    
-  </div>
+  <h1 class="text-center">Welcome to DaList</h1>
   <div class="container-fluid">
     <nav class="navbar navbar-expand navbar-toggler nav-tabs navbar-dark bg-dark">
       <div class="container-fluid">
@@ -25,11 +22,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/dashboard">Home</a>
+              <a class="nav-link" href="/dashboard">Home</a>
             </li>
             <li class="nav-item d-flex">
               <a class="nav-link" href="/anime/page">Anime</a>
-              <a class="nav-link" href="/chinese/anime/page">Chinese Anime</a>
+              <a class="nav-link active" aria-current="page" href="/chinese/anime/page">Chinese Anime</a>
               <a class="nav-link" href="#">Korean Drama</a>
             </li>
             <!-- <li class="nav-item dropdown">
@@ -59,62 +56,15 @@
       </div>
     </nav>
     <!------------------------ end of nav  ---------------------------->
-    <div class="main"><!--beginning of   -->
+    <div class="main">
     <div class="L_box">
-      <h3 class="text-center">Popular Anime</h3>
-      <table class="table table-primary table-hover">
-        <thead class="">
-            <th>title</th>
-            <th>title</th>
-        </thead>
-        <tbody>
-          {% for anime in animes %}
-          <tr>
-            <td>{{anime.title}} </td>
-            <td>{{anime.score}} </td>
-            <td>{{anime.aired_on}} </td>
-            <td>{{anime.rank}} </td>
-            <td><img src ="{{anime.picture_url}}"/> </td>
-            <td><a target ="_blank" href = "{{anime.myanimelist_url}}">anime info</a> </td><!--  -->
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      <h3>Anime</h3>
     </div>
-    
     <div class="mid_box">
-      <h3 class="text-center">Popular Chinese Anime</h3>
-      <table class="table table-primary table-hover">
-        <thead class="">
-          <tr>
-            <th class="bluh">bluh</th>
-            <th class="bluh">bluh</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>bluh</td>
-            <td>bla</td>
-          </tr>
-        </tbody>
-      </table>
+      <h3></h3>
     </div>
     <div class="R_box">
-      <h3 class="text-center">Korean Drama</h3>
-      <table class="table table-primary table-hover">
-        <thead class="">
-          <tr>
-            <th class="bluh">bluh</th>
-            <th class="bluh">bluh</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>bluh</td>
-            <td>bla</td>
-          </tr>
-        </tbody>
-      </table>
+      <h3></h3>
     </div>
     </div>
   

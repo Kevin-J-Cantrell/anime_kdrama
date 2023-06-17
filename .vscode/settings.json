@@ -1,3 +1,4 @@
 {
-    "livePreview.defaultPreviewPath": "c:\\Users\\kevin\\OneDrive\\Desktop\\recipes\\flask_app\\templates\\edit_recipe.html"
+    "livePreview.defaultPreviewPath": "c:\\Users\\kevin\\OneDrive\\Desktop\\recipes\\flask_app\\templates\\edit_recipe.html",
+    "editor.acceptSuggestionOnEnter": "on"
 }

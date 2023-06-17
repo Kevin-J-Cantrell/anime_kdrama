@@ -2,15 +2,16 @@ from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app.models import users
 from flask import flash
 
-class Recipe:
-    mydb = 'recipes_schema'
+class ChineseAnime:
+    db = 'DaList_Site'
     def __init__(self, data):
         self.id = data['id']
-        self.name = data['name']
+        self.title = data['title']
         self.description  = data['description']
-        self.instruction  = data['instruction']
         self.date_posted  = data['date_posted']
-        self.under_time  = data['under_time']
+        self.want_to_watch  = data['want_to_watch']
+        self.not_sure  = data['not_sure']
+        self.wont_watch  = data['wont_watch']
         self.user_id = data['user_id']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
@@ -19,13 +20,13 @@ class Recipe:
     @classmethod
     def get_all(cls):
         query = """
-        SELECT * FROM recipes
+        SELECT * FROM chinese_animes
         JOIN users
-        ON recipes.user_id = users.id;"""
-        recipe_data = connectToMySQL(cls.mydb).query_db(query)
+        ON chinese_animes.user_id = users.id;"""
+        anime_data = connectToMySQL(cls.db).query_db(query)
         output = []
-        for user_info in recipe_data:
-            my_recipe = cls (user_info)
+        for user_info in anime_data:
+            my_anime = cls (user_info)
             user_data = {
                 "id" : user_info["users.id"],
                 "first_name" : user_info["first_name"],
@@ -35,53 +36,53 @@ class Recipe:
                 "created_at" : user_info["users.created_at"],
                 "updated_at" : user_info["users.updated_at"]
             }
-            my_recipe.user = users.User(user_data)# goes to user.py
-            output.append( my_recipe)
+            my_anime.user = users.User(user_data)# goes to user.py
+            output.append( my_anime)
         return output
     
     @classmethod
     def create(cls, data ):
         query = """
-        INSERT INTO recipes ( name , description , instruction , date_posted , under_time ,user_id ) 
-        VALUES ( %(name)s , %(description)s , %(instruction)s , %(date_posted)s , %(under_time)s , %(user_id)s );"""
-        result = connectToMySQL(cls.mydb).query_db( query, data )
+        INSERT INTO chinese_animes ( title , description , date_posted ,want_to_watch,not_sure,wont_watch,user_id ) 
+        VALUES ( %(title)s , %(description)s , %(date_posted)s , %(want_to_watch)s , %(not_sure)s , %(date_posted)s , %(user_id)s );"""
+        result = connectToMySQL(cls.db).query_db( query, data )
         return result
     
     @classmethod
     def delete(cls,id):
         data = {"id" : id}
-        query = "DELETE FROM recipes WHERE id = %(id)s;"
-        connectToMySQL(cls.mydb).query_db( query,data )
+        query = "DELETE FROM chinese_animes WHERE id = %(id)s;"
+        connectToMySQL(cls.db).query_db( query,data )
 
     @classmethod
     def update(cls,data):
         print("updating")
         query = """
-        UPDATE recipes 
-        SET name = %(name)s , description = %(description)s , instruction = %(instruction)s , date_posted = %(date_posted)s , under_time = %(under_time)s 
+        UPDATE chinese_animes 
+        SET name = %(title)s , description = %(description)s , date_posted = %(date_posted)s ,want_to_watch= %(want_to_watch)s , not_sure= %(not_sure)s,wont_watch= %(wont_watch)s
         WHERE id = %(id)s;"""
-        connectToMySQL(cls.mydb).query_db( query,data )
+        connectToMySQL(cls.db).query_db( query,data )
         
     @classmethod
     def get_one(cls,id):
         data = {"id": id}
-        query = "SELECT * FROM recipes WHERE id = %(id)s;"
-        result = connectToMySQL(cls.mydb).query_db( query,data )
+        query = "SELECT * FROM chinese_animes WHERE id = %(id)s;"
+        result = connectToMySQL(cls.db).query_db( query,data )
         return cls(result[0]) # a list of dictionaries
     
     @classmethod
-    def rcp_user(cls ,rcp_id):
-        data = {"id": rcp_id }
+    def chinese_anime_user(cls ,anime_id):#joining chinese_anime to user
+        data = {"id": anime_id }
         query = """
-        SELECT * FROM recipes
+        SELECT * FROM chinese_animes
         JOIN users
-        ON recipes.user_id = users.id
-        WHERE recipes.id = %(id)s
+        ON chinese_animes.user_id = users.id
+        WHERE chinese_animes.id = %(id)s
         """
-        results = connectToMySQL(cls.mydb).query_db(query,data)
+        results = connectToMySQL(cls.db).query_db(query,data)
         print(results)
         user_info = results[0]
-        my_recipe = cls (user_info)
+        my_anime = cls (user_info)
         user_data = {
             "id" : user_info["users.id"],
             "first_name" : user_info["first_name"],
@@ -91,22 +92,19 @@ class Recipe:
             "created_at" : user_info["users.created_at"],
             "updated_at" : user_info["users.updated_at"]
         }
-        my_recipe.user = users.User(user_data)# goes to user.py
-        return my_recipe
+        my_anime.user = users.User(user_data)# goes to user.py
+        return my_anime
     
     @staticmethod
-    def edit_recipe_msgs(recipe):
+    def edit_user_msgs(user):
         is_valid = True
-        if len(recipe['name']) < 5:
+        if len(user['name']) < 5:
             flash("First name must be at least 5 characters")
             is_valid= False
-        if len(recipe['description']) < 2:
+        if len(user['description']) < 2:
             flash("Description field can not be empty")
             is_valid= False
-        if len(recipe['instruction']) < 2:
-            flash("instruction field can not be empty")
-            is_valid= False
-        if len(recipe['date_posted']) < 2:
+        if len(user['date_posted']) < 2:
             flash("Date can not be empty")
             is_valid= False
         return is_valid

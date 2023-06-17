@@ -1,0 +1,68 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Register</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <link rel='stylesheet' href="{{ url_for('static', filename='css/register_form.css') }}">
+    <!--Convert to an external stylesheet-->
+    
+</head>
+
+<body class="text-center">
+    <div class="form-signin bg-light">
+        <form action="/register" method="post">
+            <img class="mb-4" src="" alt="" width="72">
+            <h1 class="text-center mb-3" style="font-size: 50px; color:aqua;">Register</h1>
+            {% with messages = get_flashed_messages(category_filter=["register"]) %}<!--change what is after category_filter to What you need to as message-->
+            {% if messages %}
+            {% for message in messages %}
+                <p class="text-danger">{{message}}</p>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="form-floating">
+                <input type="text" name="first_name" id="first_name" class="form-control" placeholder="First Name">
+                <label for="floatingInput">First Name</label>
+            </div>
+            <div class="form-floating">
+                <input type="text" name="last_name" id="last_name" class="form-control" placeholder="Last name">
+                <label for="floatingInput">Last Name</label>
+            </div>
+            <div class="form-floating">
+                <input type="email" name="email" id="email" class="form-control" placeholder="Email">
+                <label for="floatingInput">Email address</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" name="password" id="password" class="form-control" placeholder="Password">
+                <label for="floatingPassword">Password</label>
+            </div>
+            <div class="form-floating ">
+                <input type="password" name="confirm" id="confirm" class="form-control" placeholder="Confirm Password" >
+                <label for="floatingPassword">Confirm Password</label>
+            </div>
+            <!-- <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div> -->
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+        </form>
+    </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous">
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

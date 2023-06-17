@@ -1,47 +1,71 @@
+import requests
+import urllib.parse
 from flask_app import app
 from flask import Flask, redirect, session, request, render_template, url_for, flash
 from flask_app.models.users import User
-from flask_app.models.recipes import Recipe
+from flask_app.models.animes import Anime
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 
 
 @app.route('/')
-def Register_page():
-    
-    return render_template ("register_login.html")
+def Login():
+
+    return render_template("login.html")
+
+
+@app.route('/register-page')
+def Register_Page():
+
+    return render_template("register.html")
+
 
 @app.route('/dashboard')
 def Dashboard():
     print('finding user')
     print(session['user_id'])
     id = {
-        'id':session['user_id'] 
-        } 
+        'id': session['user_id']
+    }
     if 'user_id' not in session:
         return redirect('/')
-    recipes=Recipe.get_all()
-    users=User.get_one(id)
-    return render_template ("Dashboard.html",users=users,recipes=recipes)
+    # animes = Anime.get_all()
+    users = User.get_one(id)
+    url = "https://myanimelist.p.rapidapi.com/anime/top/all"
+
+    headers = {
+        "X-RapidAPI-Key": "8242de165dmsh4e2d1c1cfeef870p19ca8fjsn6398a61dd3ad",
+        "X-RapidAPI-Host": "myanimelist.p.rapidapi.com"
+    }
+    # query = 
+    response = requests.get(url, headers=headers)
+    result = response.json()
+    print(result)
+
+    
+
+    return render_template("Dashboard.html", users=users, animes=result)
+
 
 @app.route('/register', methods=['POST'])
 def Register():
     if not User.validate_register(request.form):
-        return redirect ("/")
+        return redirect("/")
     data = {
-        'first_name':request.form['first_name'],
-        'last_name' :request.form['last_name'],
-        'email'     :request.form['email'],
+        'first_name': request.form['first_name'],
+        'last_name': request.form['last_name'],
+        'email': request.form['email'],
         "password": bcrypt.generate_password_hash(request.form['password'])
 
     }
     session['user_id'] = User.create(data)
-    return redirect ("/dashboard")
+    return redirect("/dashboard")
+
 
 @app.route('/login', methods=['POST'])
 def login():
     # see if the username provided exists in the database
-    data = { "email" : request.form["email"] }
+    data = {"email": request.form["email"]}
     user_in_db = User.get_by_email(data)
     print(user_in_db)
     # user is not registered in the db
