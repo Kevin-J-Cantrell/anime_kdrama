@@ -1,4 +1,5 @@
 from re import search
+from AnilistPython import Anilist
 import cgi
 import requests
 from urllib.parse import urlencode
@@ -7,24 +8,14 @@ from flask import Flask, redirect, session, request, render_template, url_for, f
 from flask_app.models.animes import Anime
 from flask_app.models.users import User
 from flask import flash
+anilist = Anilist()
+
 
 @app.route('/anime/page')
 def Anime_Page():
 
-    # url = "https://myanimelist.p.rapidapi.com/anime/top/all"
 
-    # headers = {
-    #     "X-RapidAPI-Key": "8242de165dmsh4e2d1c1cfeef870p19ca8fjsn6398a61dd3ad",
-    #     "X-RapidAPI-Host": "myanimelist.p.rapidapi.com"
-    # }
-    
-    # response = requests.get(url, headers=headers )
-    # result = response.json()
-    # print(result)
-    
-    # , 
-    
-   
+
     return render_template ("anime.html")
 
 
@@ -32,31 +23,14 @@ def Anime_Page():
 def Anime_Search():
     if request.method == 'POST':
         search_query = request.form['search_query']
-        url = f"https://myanimelist.p.rapidapi.com/anime/search/{search_query}/5"
-        headers = {
-            "X-RapidAPI-Key": "8242de165dmsh4e2d1c1cfeef870p19ca8fjsn6398a61dd3ad",
-            "X-RapidAPI-Host": "myanimelist.p.rapidapi.com"
-        }
-    
-        response = requests.get(url, headers=headers)
         
-        results = response.json()
-        print(results)
-        result = results
-        # data = {
-        #     "title": result["title"],
-        #     "description":result["description"],
-        #     # "aired_on": result["aired_on"],
-        #     # "type": result["type"],
-        #     "picture_url": result["picture_url"],
-        #     "myanimelist_id": result["myanimelist_id"],
-        #     "myanimelist_url": result["myanimelist_url"],
-        #     # "user_id": session['user_id'],
-        # }
-        # print(data)
+        # Results a list of three dictionaries 
+        anime_res = anilist.get_anime(search_query, deepsearch=True, count=3)
         
- 
-    return render_template ("anime.html" , srch = results )
+        
+        print(anime_res)
+
+    return render_template ("anime.html" , srch = anime_res )
     
 
 # ---------------------------------------------------------------

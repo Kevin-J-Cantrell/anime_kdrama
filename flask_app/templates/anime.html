@@ -37,20 +37,8 @@
 
           <form action="/anime/search" method="post" class="">
             <div class="bar">
-              <input class="searchbar" type="text" title="Search">
-              <a type="submit"> <img class="voice btn btn-bd-light" data-bs-toggle="modal"  src="https://www.pngall.com/wp-content/uploads/13/Search-Button-Green-PNG.png"></a>
-            </div>
-            <div class="card" style="width: 18rem;">
-              <ul class="list-group list-group-flush">
-                {% for search in srch %}
-                
-                <li class="list-group-item">{{ search.title }}</li>
-                
-                {% endfor %}
-              </ul>
-              <div class="card-footer">
-                Card footer
-              </div>
+              <input class="searchbar" type="search" placeholder="Search" title="Search">
+              <button type="submit"><img class="search-button" src="https://www.pngall.com/wp-content/uploads/13/Search-Button-Green-PNG.png" alt="" sizes="" srcset=""></button>
             </div>
           </form>
         </div>
@@ -81,6 +69,28 @@
               <td>{{anime.aired_on}} </td>
               <td>{{anime.type}} </td>
               <td><img src="{{anime.picture_url}}" /> </td>
+              <td><a target="_blank" href="{{anime.myanimelist_url}}">anime info</a> </td><!--  -->
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="L_box">
+        <h3 class="text-center">Searched Anime</h3>
+        <table class="table table-primary table-hover">
+          <thead class="">
+
+            <th>picture</th>
+            <th>title</th>
+
+          </thead>
+          <tbody>
+            {% for search in srch %}
+            <tr>
+              <td><img src="{{search.picture_url}}" /> </td>
+              <td>{{search.name_english}} </td>
+              <td>{{search.aired_on}} </td>
+              <td>{{search.type}} </td>
               <td><a target="_blank" href="{{anime.myanimelist_url}}">anime info</a> </td><!--  -->
             </tr>
             {% endfor %}

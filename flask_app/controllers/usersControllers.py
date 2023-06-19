@@ -1,3 +1,5 @@
+import pprint
+from AnilistPython import Anilist
 import requests
 import urllib.parse
 from flask_app import app
@@ -37,14 +39,33 @@ def Dashboard():
         "X-RapidAPI-Key": "8242de165dmsh4e2d1c1cfeef870p19ca8fjsn6398a61dd3ad",
         "X-RapidAPI-Host": "myanimelist.p.rapidapi.com"
     }
-    # query = 
+
     response = requests.get(url, headers=headers)
-    result = response.json()
-    print(result)
+    data = response.json()
+    pprint.pprint(data)
+    # for item in data:
+    #     api_data = {
+    #         'id': item['myanimelist_id'],
+    #         'picture_url':item['picture_url'],
+    #         'title' : item['title'],
+    #         "type" : item ["type"],
+    #         'aired_on' : item['aired_on'],
+    #         'score' : item['score'],
+    #         'myanimelist_id' : item['myanimelist_id'],
+    #         'myanimelist_url' : item['myanimelist_url'],
+    #         'rank' : item['rank'],
+    #         'members' : item['members'],
+    #         # 'user_id' : session.item['user_id'],
+    #         }
+    #     new_anime = Anime(api_data)
+    # Anime.db.session.create(new_anime)
 
-    
 
-    return render_template("Dashboard.html", users=users, animes=result)
+    # # Commit the changes to the database
+    # Anime.db.session.commit()
+    print(data)
+
+    return render_template("Dashboard.html", users=users, animes=data)
 
 
 @app.route('/register', methods=['POST'])
